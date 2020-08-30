@@ -8,6 +8,7 @@ public class Pawn : MonoBehaviour
 	public int Health { get; set; }
 	public Stat[] Stats { get; set; }
 
+    public GameObject Scheduler;
 
 	// Start is called before the first frame update
 	void Start()
