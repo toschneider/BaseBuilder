@@ -8,6 +8,7 @@ public class MyScheduler<T, U> : IEnumerable where U : Enum where T : new()
 {
     private readonly T[] _array;
     private readonly int _lower;
+    public int length;
 
     public MyScheduler()
     {
@@ -19,6 +20,7 @@ public class MyScheduler<T, U> : IEnumerable where U : Enum where T : new()
 		{
             _array[i] = new T();
 		}
+        length = size;
     }
 
     public T this[U key]
