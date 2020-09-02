@@ -8,6 +8,7 @@ public class WorldController : MonoBehaviour
     public static WorldController Instance { get; protected set; }
     public Sprite soilSprite;
     public Sprite deepWaterSprite;
+    public Sprite richSoilSprite;
     float randomizeTileTimer;
     public World World { get; protected set; }
     // Start is called before the first frame update
@@ -70,7 +71,12 @@ public class WorldController : MonoBehaviour
         } else if(tile_data.tileType == TileType.DeepWater)
 		{
             tile_go.GetComponent<SpriteRenderer>().sprite = deepWaterSprite;
-        } else
+        }
+        else if (tile_data.tileType == TileType.RichSoil)
+        {
+            tile_go.GetComponent<SpriteRenderer>().sprite = richSoilSprite;
+        }
+        else
 		{
             Debug.LogError("OnTileTypeChanged - Unrecognized TileType.");
 		}

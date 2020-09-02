@@ -15,7 +15,7 @@ public class World
 	public int MaxTemperature { get; set; }
 	public int MinTemperature { get; set; }
 	public int CurrentTemperature { get; set; }
-	public float NoiseScale = 10f;
+	public float NoiseScale = 10f; ///10f;
 
 	public World(Biome biome, int minTemperature, int maxTemperature, int width = 125, int height = 125)
 	{
@@ -41,6 +41,8 @@ public class World
 	{
 		Debug.Log("RandomizeTiles");
 		float noise;
+		int countSoil = 0;
+		float maxNoise = 0;
 		for (int i = 0; i < Height; i++)
 		{
 			for (int j = 0; j < Width; j++)
@@ -54,16 +56,28 @@ public class World
 					Tiles[i, j].tileType = TileType.Soil;
 				}
 				*/
-				noise = Mathf.PerlinNoise(NoiseScale*((float)j)/ ((float)Width), NoiseScale*((float)i) / ((float)Height));
+				//noise = Mathf.PerlinNoise(NoiseScale*((float)j)/ ((float)Width), NoiseScale*((float)i) / ((float)Height));
+				OpenSimplexNoise simplexNoise = new OpenSimplexNoise(1321414143333443);
+				noise = (float) simplexNoise.Evaluate(NoiseScale * ((float)j) / ((float)Width), NoiseScale * ((float)i) / ((float)Height));
+
 				//Debug.Log("noise at w,h: " + j + "," + i + ": " + noise);
 				if(noise > 0.5)
 				{
+					Tiles[i, j].tileType = TileType.RichSoil;
+					countSoil++;
+					maxNoise = noise > maxNoise ? noise : maxNoise;
+				} else if(noise > 0.3)
+				{
 					Tiles[i, j].tileType = TileType.Soil;
-				} else
+					countSoil++;
+					maxNoise = noise > maxNoise ? noise : maxNoise;
+				}
+				else
 				{
 					Tiles[i, j].tileType = TileType.DeepWater;
 				}
 			}
+			Debug.Log("soilRatio: " + countSoil + "/" + (Height * Width) + " maxnoise: " + maxNoise);
 		}
 	}
 

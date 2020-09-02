@@ -394,6 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soilSprite: {fileID: 21300000, guid: 9cb923f855fed8c408c09027d146cdda, type: 3}
   deepWaterSprite: {fileID: 21300000, guid: e44f380e812fb69488b18b100a3fc333, type: 3}
+  richSoilSprite: {fileID: 21300000, guid: d910e4a923505d4418072bfb303c3025, type: 3}
 --- !u!4 &135406122
 Transform:
   m_ObjectHideFlags: 0
@@ -443,10 +444,10 @@ RectTransform:
   m_Father: {fileID: 1590259859}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 40, y: -60}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &144797070
 MonoBehaviour:
