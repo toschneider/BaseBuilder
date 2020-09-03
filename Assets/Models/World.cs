@@ -1,7 +1,9 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -24,7 +26,7 @@ public class World
 		this.WorldBiome = biome;
 		this.MaxTemperature = maxTemperature;
 		this.MinTemperature = minTemperature;
-		this.CurrentTemperature = Random.Range(this.MinTemperature, this.MaxTemperature);
+		this.CurrentTemperature = UnityEngine.Random.Range(this.MinTemperature, this.MaxTemperature);
 
         Tiles = new Tile[Height, Width];
 		for (int i = 0; i < Height; i++)
@@ -35,6 +37,9 @@ public class World
 			}
 		}
 		Debug.Log("World created with " + (Height * Width) + " tiles.");
+		Debug.Log("Create and save Textures");
+		createTextures();
+		Debug.Log("Created and saved Textures");
 	}
 
 	public void RandomizeTiles()
@@ -119,6 +124,105 @@ public class World
 		}
 		return Tiles[y, x];
 	}
+	/// <summary>
+	/// stores hsv-values for each TileType
+	/// </summary>
+	Dictionary<TileType, (float, float, float)> TileHSVColor = new Dictionary<TileType, (float, float, float)>()
+	{
+		{TileType.StonySoil, (0, 0, 65)},
+		{TileType.Soil,  (29, 29, 39) },
+		{TileType.SoftSand,  (39, 22, 51) },
+		{TileType.ShallowWater , (195, 12, 38)},
+		{TileType.ShallowOceanWater , (206, 18, 36)},
+		{TileType.ShallowMovingWater , (195, 12, 38)},
+		{TileType.Sand , (33, 28, 50)},
+		{TileType.RoughStoneTile , (0, 0, 65)},
+		{TileType.RichSoil , (27, 37, 29)},
+		{TileType.Mud , (24, 36, 29)},
+		{TileType.MarshySoil ,(47, 26, 29)},
+		{TileType.Marsh , (200, 1, 98)},
+		{TileType.LichenCoveredSoil , (29, 29, 39)},
+		{TileType.Ice , (200, 1, 98)},
+		{TileType.DeepWater , (212, 22, 33)},
+		{TileType.DeepOceanWater , (212, 22, 33)},
+		{TileType.ChestDeepMovingWater , (206, 18, 36)}
+	};
+
+	/// <summary>
+	/// normalize hsv-values to float between 0...1
+	/// </summary>
+	/// <param name="f">normalized hsv</param>
+	/// <returns></returns>
+	private (float, float, float) hsvTofloat((float,float,float) f)
+	{
+		float h, s, v;
+		h = f.Item1;
+		s = f.Item2;
+		v = f.Item3;
+		return (h / 360f, s / 100f, v / 100f);
+	}
+
+	/// <summary>
+	/// creates and saves Textures as png for all TileTypes via SimplexNoise and HSV
+	/// </summary>
+	public void createTextures()
+	{
+		float[,] noises;
+		int size = 1024;
+		foreach (var tt in Enum.GetValues(typeof(TileType)).Cast<TileType>().ToList())
+		{
+			noises = createNoiseTextures(size);
+			saveTextureToFile(noises, size, tt);
+		}
+	}
+	private void saveTextureToFile(float[,] noiseMap,int size, TileType tileType)
+	{
+		Texture2D tex = new Texture2D(size, size);
+		string name = tileType.ToString();
+		Color color;
+		Debug.Log("Texture size " + size);
+		Debug.Log("Texture created with " + (size * size) + " pixels.");
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				float r, g, b, a, h, s, v;
+				r = 255;
+				g = 0;
+				b = 0;
+				a = 0.75f + 0.25f * noiseMap[i, j];
+				(h, s, v) = hsvTofloat(TileHSVColor[tileType]);
+				v = v/2 + (v/2)* noiseMap[i, j];
+
+
+				//color = new Color(r,g,b,a);
+				color = Color.HSVToRGB(h,s,v);
+				tex.SetPixel(i, j, color);
+			}
+		}
+		//Encode to png
+		byte[] bytes = tex.EncodeToPNG();
+		UnityEngine.Object.Destroy(tex);
+		File.WriteAllBytes(Application.dataPath + "/Textures/"+ name +".png", bytes);
+		Debug.Log(Application.dataPath + "/Textures/" + name + ".png");
+	}
+
+	private float[,] createNoiseTextures(int size)
+	{
+		float TextureScale = 3f;//300f;
+		float[,] noises = new float[size, size];
+		OpenSimplexNoise simplexNoise = new OpenSimplexNoise(1321414143333443);
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				noises[i, j] = (float)simplexNoise.Evaluate(TextureScale * ((float)j) / ((float)Width), TextureScale * ((float)i) / ((float)Height));
+			}
+		}
+
+		return noises;
+	}
+
 }
 public enum Biome
 {

@@ -38,10 +38,9 @@ public class Tile
 	{
 		cbTileTypeCHanged -= callback;
 	}
-	public Terrain getTerrain()
+	public static Terrain getTerrain()
 	{
-		//return MyDictionary[tileType];
-		//todo
+
 		return null;
 	}
 
