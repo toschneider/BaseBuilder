@@ -7,6 +7,10 @@ using UnityEngine;
 public class Colonist : Pawn
 {
 	public GameObject Scheduler;
+	public GameObject Head;
+	public GameObject Body;
+	public GameObject Hair;
+	public GameObject WeaponSlot;
 	MyScheduler<List<int>, Job> schedule;
 	public MyScheduler<List<int>, Job> Schedule
 	{
