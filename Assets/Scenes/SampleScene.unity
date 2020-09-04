@@ -637,7 +637,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 220061151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 244860318}
@@ -729,6 +729,13 @@ MonoBehaviour:
   Body: {fileID: 1867238387}
   Hair: {fileID: 1681506692}
   WeaponSlot: {fileID: 159531308}
+  HeadApparelSlot: {fileID: 0}
+  GarmetApparelSlot: {fileID: 0}
+  ShirtApparelSlot: {fileID: 0}
+  TrouserApparelSlot: {fileID: 0}
+  JacketApparelSlot: {fileID: 0}
+  FlakArmorApparelSlot: {fileID: 0}
+  FlakTrouserApparelSlot: {fileID: 0}
 --- !u!4 &244860318
 Transform:
   m_ObjectHideFlags: 0
@@ -3520,7 +3527,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681506692}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 244860318}
@@ -3877,7 +3884,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760028953}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 244860318}

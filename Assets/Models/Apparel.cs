@@ -7,12 +7,24 @@ public class Apparel : LooseObject
 	public Apparel(Material material, QualityEnum quality, int maxDurability, int currentDurability) : base(true, false, quality, maxDurability, currentDurability)
 	{
 		Material = material;
+		LoadSprites();
+		DirectionSprite = new Dictionary<DirectionEnum, Sprite>()
+	{
+		{DirectionEnum.South, South.}
+
+	};
 	}
 
 	public Material Material { get; set; }
+	public ApparelType apparelType { get; set; }
+	Sprite South;
+	Sprite North;
+	Sprite East;
+	public Dictionary<DirectionEnum, Sprite> DirectionSprite;
+	private void LoadSprites()
+	{
 
-
-
+	}
 
 	// Start is called before the first frame update
 	void Start()
@@ -25,4 +37,21 @@ public class Apparel : LooseObject
     {
 
     }
+}
+public enum ApparelType
+{
+	Head,
+	Garmet,
+	Shirt,
+	Trouser,
+	Jacket,
+	FlakArmor,
+	FlakPants
+}
+public enum DirectionEnum
+{
+	South,
+	North,
+	East,
+	West
 }

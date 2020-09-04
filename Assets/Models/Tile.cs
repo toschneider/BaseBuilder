@@ -10,6 +10,8 @@ public class Tile
 	Action<Tile> cbTileTypeCHanged;
 	TileType type = TileType.ChestDeepMovingWater;
 	FloorType floorType = FloorType.None;
+	Ground ground;
+	Floor floor;
 	public TileType tileType {
 		get {
 			return type;
@@ -82,17 +84,3 @@ public enum TerrainSupportType
 			Light,
 			None
 		}
-	public class Terrain
-	{
-		string Type;
-		int MoveSpeedModifier;
-		int Fertility;
-		TerrainSupportType TerrainSupport;
-		public Terrain(string type, int moveSpeedModifier, int fertility, TerrainSupportType terrainSupport)
-		{
-			Type = type;
-			MoveSpeedModifier = moveSpeedModifier;
-			Fertility = fertility;
-			TerrainSupport = terrainSupport;
-		}
-	}

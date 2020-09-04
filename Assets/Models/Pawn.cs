@@ -7,9 +7,23 @@ public class Pawn : MonoBehaviour
 	public string Name { get; set; }
 	public int Health { get; set; }
 	public Stat[] Stats { get; set; }
+	List<LooseObject> Inventory;
+	public float MovementSpeed { get; set; }
+	Vector2 Movement;
+	public GameObject Position;
+	public GameObject Scheduler;
 
-    public GameObject Scheduler;
-    List<LooseObject> Inventory;
+	public Pawn(string name, int health, Stat[] stats, float movementSpeed)
+	{
+		Name = name;
+		Health = health;
+		Stats = stats;
+		Movement = new Vector2(0,0);
+		Inventory = new List<LooseObject>();
+		MovementSpeed = movementSpeed;
+	}
+
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -35,7 +49,13 @@ public class Pawn : MonoBehaviour
 		Inventory.Add(item);
 		go.SetActive(false);
 	}
+	public void Move(Vector2 direction)
+	{
+		Vector3 pos = Position.transform.position;
+		Tile tile = WorldController.Instance.World.getTileAt((int)pos.x, (int)pos.y);
 
+
+	}
 
     // Update is called once per frame
     void Update()

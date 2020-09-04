@@ -109,7 +109,7 @@ public class World
 	public void LoadTerrainDictionaryFromJson()
 	{
 		string AssetPath = Application.dataPath;
-		string jsonString = File.ReadAllText(AssetPath + "/Data/" + "Tiles.json");
+		string jsonString = File.ReadAllText(AssetPath + "/Data/Ground/" + "Ground.json");
 	}
 	public void SaveTerrainDictionaryToJson()
 	{
@@ -147,7 +147,14 @@ public class World
 		{TileType.DeepOceanWater , (212, 22, 33)},
 		{TileType.ChestDeepMovingWater , (206, 18, 36)}
 	};
-
+	private void LoadFloorDictionary()
+	{
+		string AssetPath = Application.dataPath;
+		string jsonString = File.ReadAllText(AssetPath + "/Data/Floor/" + "Floor.json");
+	}
+	Dictionary<FloorType, Floor> FloorDictionary = new Dictionary<FloorType, Floor>()
+	{
+	};
 	/// <summary>
 	/// normalize hsv-values to float between 0...1
 	/// </summary>

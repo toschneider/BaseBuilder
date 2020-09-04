@@ -11,6 +11,34 @@ public class Colonist : Pawn
 	public GameObject Body;
 	public GameObject Hair;
 	public GameObject WeaponSlot;
+	public GameObject HeadApparelSlot;
+	public GameObject GarmetApparelSlot;
+	public GameObject ShirtApparelSlot;
+	public GameObject TrouserApparelSlot;
+	public GameObject JacketApparelSlot;
+	public GameObject FlakArmorApparelSlot;
+	public GameObject FlakTrouserApparelSlot;
+	public Apparel HeadApparel { get; set; }
+	public Apparel GarmetApparel { get; set; }
+	public Apparel ShirtApparel { get; set; }
+	public Apparel TrouserApparel { get; set; }
+	public Apparel JacketApparel { get; set; }
+	public Apparel FlakArmorApparel { get; set; }
+	public Apparel FlakTrouserApparel { get; set; }
+	public Colonist(string name, int health, Stat[] stats, float movementSpeed) : base(name,health,stats,movementSpeed)
+	{
+		LoadSPrites();
+		HeadSpriteDictionary = new Dictionary<DirectionEnum, Sprite>();
+	}
+	Dictionary<DirectionEnum, Sprite> HeadSpriteDictionary;
+	Dictionary<DirectionEnum, Sprite> BodySpriteDictionary;
+	Dictionary<DirectionEnum, Sprite> HairSpriteDictionary;
+	private void LoadSPrites()
+	{
+		//Todo Load ColonistSprites into Dictionaries
+	}
+
+
 	MyScheduler<List<int>, Job> schedule;
 	public MyScheduler<List<int>, Job> Schedule
 	{
@@ -40,6 +68,100 @@ public class Colonist : Pawn
 	{
 		Schedule[job][0] = priority;
 	}
+	public new void Move(Vector2 direction)
+	{
+		base.Move(direction);
+		if(direction.x > Math.Abs(direction.y))
+		{
+			//East
+			SetApparel(DirectionEnum.East);
+			SetSprites(DirectionEnum.East);
+		} else if(direction.x < 0-Math.Abs(direction.y))
+		{
+			//West
+			SetApparel(DirectionEnum.West);
+			SetSprites(DirectionEnum.West);
+		} else if(direction.y > Math.Abs(direction.x))
+		{
+			//North
+			SetApparel(DirectionEnum.North);
+			SetSprites(DirectionEnum.North);
+		} else if(direction.y < 0 - Math.Abs(direction.x))
+		{
+			//South
+			SetApparel(DirectionEnum.South);
+			SetSprites(DirectionEnum.South);
+		}
+	}
+	private void SetSprites(DirectionEnum dirEnum)
+	{
+		SpriteRenderer headRenderer = Head.GetComponent<SpriteRenderer>();
+		headRenderer.sprite = HeadSpriteDictionary[dirEnum];
+		SpriteRenderer bodyRenderer = Body.GetComponent<SpriteRenderer>();
+		bodyRenderer.sprite = BodySpriteDictionary[dirEnum];
+		SpriteRenderer hairRenderer = Hair.GetComponent<SpriteRenderer>();
+		hairRenderer.sprite = HairSpriteDictionary[dirEnum];
 
+		if (dirEnum == DirectionEnum.West)
+		{
+			headRenderer.flipX = true;
+			bodyRenderer.flipX = true;
+			hairRenderer.flipX = true;
+		}
+		else
+		{
+			headRenderer.flipX = false;
+			bodyRenderer.flipX = false;
+			hairRenderer.flipX = false;
+		}
+
+	}
+	private void SetApparel(DirectionEnum dirEnum)
+	{
+		SpriteRenderer headRenderer = HeadApparelSlot.GetComponent<SpriteRenderer>();
+		headRenderer.sprite = HeadApparel.DirectionSprite[dirEnum];
+
+		SpriteRenderer garmetRenderer = GarmetApparelSlot.GetComponent<SpriteRenderer>();
+		garmetRenderer.sprite = HeadApparel.DirectionSprite[dirEnum];
+
+		SpriteRenderer shirtRenderer = ShirtApparelSlot.GetComponent<SpriteRenderer>();
+		shirtRenderer.sprite = ShirtApparel.DirectionSprite[dirEnum];
+
+		SpriteRenderer trouserRenderer = TrouserApparelSlot.GetComponent<SpriteRenderer>();
+		trouserRenderer.sprite = TrouserApparel.DirectionSprite[dirEnum];
+
+		SpriteRenderer jacketRenderer = JacketApparelSlot.GetComponent<SpriteRenderer>();
+		jacketRenderer.sprite = JacketApparel.DirectionSprite[dirEnum];
+
+		SpriteRenderer flakArmorRenderer = FlakArmorApparelSlot.GetComponent<SpriteRenderer>();
+		flakArmorRenderer.sprite = FlakArmorApparel.DirectionSprite[dirEnum];
+
+		SpriteRenderer flakTrouserrRenderer = FlakTrouserApparelSlot.GetComponent<SpriteRenderer>();
+		flakTrouserrRenderer.sprite = FlakTrouserApparel.DirectionSprite[dirEnum];
+
+
+
+
+		if (dirEnum == DirectionEnum.West)
+		{
+			headRenderer.flipX = true;
+			garmetRenderer.flipX = true;
+			shirtRenderer.flipX = true;
+			trouserRenderer.flipX = true;
+			jacketRenderer.flipX = true;
+			flakArmorRenderer.flipX = true;
+			flakTrouserrRenderer.flipX = true;
+
+		} else
+		{
+			headRenderer.flipX = false;
+			garmetRenderer.flipX = false;
+			shirtRenderer.flipX = false;
+			trouserRenderer.flipX = false;
+			jacketRenderer.flipX = false;
+			flakArmorRenderer.flipX = false;
+			flakTrouserrRenderer.flipX = false;
+		}
+	}
 
 }
