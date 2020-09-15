@@ -8,11 +8,11 @@ public class Pawn : MonoBehaviour
 	public int Health { get; set; }
 	public Stat[] Stats { get; set; }
 	List<LooseObject> Inventory;
-	public float MovementSpeed { get; set; }
+	public float BaseMovementSpeed { get; set; }
 	Vector2 Movement;
 	public GameObject Position;
-	public GameObject Scheduler;
-
+	//public GameObject Schedulerr;
+	public Scheduler Scheduler;
 	public Pawn(string name, int health, Stat[] stats, float movementSpeed)
 	{
 		Name = name;
@@ -20,10 +20,17 @@ public class Pawn : MonoBehaviour
 		Stats = stats;
 		Movement = new Vector2(0,0);
 		Inventory = new List<LooseObject>();
-		MovementSpeed = movementSpeed;
+		BaseMovementSpeed = movementSpeed;
 	}
 
+	public float calcMovementspeed(float modifier)
+	{
+		float move = BaseMovementSpeed;
+		//Todo Movementboni/mali
+		move *= modifier;
 
+		return move;
+	}
 
 	// Start is called before the first frame update
 	void Start()
@@ -62,4 +69,9 @@ public class Pawn : MonoBehaviour
     {
 
     }
+
+	private void doTask()
+	{
+		Task task = Scheduler.
+	}
 }

@@ -12,6 +12,7 @@ public class Tile
 	FloorType floorType = FloorType.None;
 	Ground ground;
 	Floor floor;
+	public bool isWalkable { get; set; }
 	public TileType tileType {
 		get {
 			return type;
@@ -24,13 +25,14 @@ public class Tile
 				cbTileTypeCHanged(this);
 		}
 	}
-	public Tile(World world, TileType tileType, int x, int y)
+	public Tile(World world, TileType tileType, int x, int y, bool isWalkable)
 	{
 
 		this.x = x;
 		this.y = y;
 		this.world = world;
 		this.tileType = tileType;
+		this.isWalkable = isWalkable;
 	}
 	public void RegisterTileTypeChangedCallback(Action<Tile> callback)
 	{

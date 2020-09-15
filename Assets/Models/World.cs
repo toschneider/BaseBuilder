@@ -33,7 +33,7 @@ public class World
 		{
 			for (int j = 0; j < Width; j++)
 			{
-                Tiles[i, j] = new Tile(this, TileType.Soil, j, i);
+                Tiles[i, j] = new Tile(this, TileType.Soil, j, i, true);
 			}
 		}
 		Debug.Log("World created with " + (Height * Width) + " tiles.");
@@ -44,7 +44,7 @@ public class World
 
 	public void RandomizeTiles()
 	{
-		Debug.Log("RandomizeTiles");
+		//Debug.Log("RandomizeTiles");
 		float noise;
 		int countSoil = 0;
 		float maxNoise = 0;
@@ -71,22 +71,25 @@ public class World
 					Tiles[i, j].tileType = TileType.RichSoil;
 					countSoil++;
 					maxNoise = noise > maxNoise ? noise : maxNoise;
+					Tiles[i, j].isWalkable = true;
 				} else if(noise > 0.3)
 				{
 					Tiles[i, j].tileType = TileType.Soil;
 					countSoil++;
 					maxNoise = noise > maxNoise ? noise : maxNoise;
+					Tiles[i, j].isWalkable = true;
 				}
 				else
 				{
 					Tiles[i, j].tileType = TileType.DeepWater;
+					Tiles[i, j].isWalkable = false;
 				}
 			}
-			Debug.Log("soilRatio: " + countSoil + "/" + (Height * Width) + " maxnoise: " + maxNoise);
+			//Debug.Log("soilRatio: " + countSoil + "/" + (Height * Width) + " maxnoise: " + maxNoise);
 		}
 	}
 
-	Dictionary<TileType, Terrain> MyDictionary = new Dictionary<TileType, Terrain>()
+	Dictionary<TileType, Terrain> TerrainDictionary = new Dictionary<TileType, Terrain>()
 	{
 		{TileType.StonySoil, new Terrain("Stony soil", 87, 70, TerrainSupportType.Heavy) },
 		{TileType.Soil, new Terrain("Soil", 87, 100, TerrainSupportType.Heavy) },
@@ -106,6 +109,10 @@ public class World
 		{TileType.DeepOceanWater , new Terrain("Deep ocean water", 0, 0, TerrainSupportType.None)},
 		{TileType.ChestDeepMovingWater , new Terrain("Chest-deep moving water", 22, 0, TerrainSupportType.None)}
 	};
+	public Terrain getTerrainAt(int x, int y)
+	{
+		return TerrainDictionary[getTileAt(x, y).tileType];
+	}
 	public void LoadTerrainDictionaryFromJson()
 	{
 		string AssetPath = Application.dataPath;
@@ -187,8 +194,8 @@ public class World
 		Texture2D tex = new Texture2D(size, size);
 		string name = tileType.ToString();
 		Color color;
-		Debug.Log("Texture size " + size);
-		Debug.Log("Texture created with " + (size * size) + " pixels.");
+		//Debug.Log("Texture size " + size);
+		//Debug.Log("Texture created with " + (size * size) + " pixels.");
 		for (int i = 0; i < size; i++)
 		{
 			for (int j = 0; j < size; j++)
@@ -211,7 +218,7 @@ public class World
 		byte[] bytes = tex.EncodeToPNG();
 		UnityEngine.Object.Destroy(tex);
 		File.WriteAllBytes(Application.dataPath + "/Textures/"+ name +".png", bytes);
-		Debug.Log(Application.dataPath + "/Textures/" + name + ".png");
+		//Debug.Log(Application.dataPath + "/Textures/" + name + ".png");
 	}
 
 	private float[,] createNoiseTextures(int size)

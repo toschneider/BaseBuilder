@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MyScheduler<T, U> : IEnumerable where U : Enum where T : new()
+public class MyScheduler<T, U> : IEnumerable where U : Job where T : new()
 {
     private readonly T[] _array;
     private readonly int _lower;
@@ -12,8 +12,8 @@ public class MyScheduler<T, U> : IEnumerable where U : Enum where T : new()
 
     public MyScheduler()
     {
-        _lower = Convert.ToInt32(Enum.GetValues(typeof(U)).Cast<U>().Min());
-        int upper = Convert.ToInt32(Enum.GetValues(typeof(U)).Cast<U>().Max());
+        _lower = Convert.ToInt32(Enum.GetValues(typeof(JobEnum)).Cast<JobEnum>().Min());
+        int upper = Convert.ToInt32(Enum.GetValues(typeof(JobEnum)).Cast<JobEnum>().Max());
         int size = 1 + upper - _lower;
         _array = new T[size];
 		for (int i = 0; i < size; i++)
@@ -25,8 +25,8 @@ public class MyScheduler<T, U> : IEnumerable where U : Enum where T : new()
 
     public T this[U key]
     {
-        get { return _array[Convert.ToInt32(key) - _lower]; }
-        set { _array[Convert.ToInt32(key) - _lower] = value; }
+        get { return _array[Convert.ToInt32(key.JobTitle) - _lower]; }
+        set { _array[Convert.ToInt32(key.JobTitle) - _lower] = value; }
     }
 
     public IEnumerator GetEnumerator()

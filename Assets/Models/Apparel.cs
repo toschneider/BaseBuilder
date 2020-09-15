@@ -7,12 +7,8 @@ public class Apparel : LooseObject
 	public Apparel(Material material, QualityEnum quality, int maxDurability, int currentDurability) : base(true, false, quality, maxDurability, currentDurability)
 	{
 		Material = material;
+		DirectionSprite = new Dictionary<DirectionEnum, Sprite>();
 		LoadSprites();
-		DirectionSprite = new Dictionary<DirectionEnum, Sprite>()
-	{
-		{DirectionEnum.South, South.}
-
-	};
 	}
 
 	public Material Material { get; set; }

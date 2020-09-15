@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Colonist : Pawn
 {
-	public GameObject Scheduler;
+	//public GameObject Scheduler;
 	public GameObject Head;
 	public GameObject Body;
 	public GameObject Hair;
@@ -37,7 +38,11 @@ public class Colonist : Pawn
 	{
 		//Todo Load ColonistSprites into Dictionaries
 	}
-
+	 public Vector2 GetPosition()
+	{
+		Transform transform = this.GetComponent<Transform>();
+		return transform.position;
+	}
 
 	MyScheduler<List<int>, Job> schedule;
 	public MyScheduler<List<int>, Job> Schedule
@@ -53,17 +58,30 @@ public class Colonist : Pawn
 	}
 	void Start()
 	{
+		//Todo Fix Scheduler
 		Scheduler = GameObject.Find("Scheduler");
 		Schedule = new MyScheduler<List<int>, Job>();
 		for (int i = 0; i < Schedule.length; i++)
 		{
 			foreach(var sc in Enum.GetValues(typeof(Job)).Cast<Job>().ToList())
 			{
-				Schedule[sc][0] = 3;
+				//Schedule[sc][0] = 3;
 			}
 		}
+		//Todo remove AStar debug
+		//World world = WorldController.Instance.World;
+		//Vector2 dest = new Vector2(UnityEngine.Random.Range(0,world.Width), UnityEngine.Random.Range(0, world.Height));
+		////Debug.Log("Calculate Path from " + GetPosition() + " to " + dest + ".");
+		//AStar.CalculatePath(GetPosition(), dest, world, this);
 	}
-
+	// Update is called once per frame
+	void FixedUpdate()
+	{
+		World world = WorldController.Instance.World;
+		Vector2 dest = new Vector2(UnityEngine.Random.Range(0, world.Width), UnityEngine.Random.Range(0, world.Height));
+		//Debug.Log("Calculate Path from " + GetPosition() + " to " + dest + ".");
+		//AStar.CalculatePath(GetPosition(), dest, world, this);
+	}
 	public void SetSchedule(Job job, int priority)
 	{
 		Schedule[job][0] = priority;

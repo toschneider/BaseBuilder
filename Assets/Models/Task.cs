@@ -36,30 +36,4 @@ public class Task : MonoBehaviour
 		return false;
 	}
 }
-public enum Job
-{
-	Firefight,
-	Patient,
-	Doctor,
-	Bedrest,
-	HaulPlus,
-	General,
-	Warden,
-	Handle,
-	Entertain,
-	Cook,
-	Hunt,
-	Construct,
-	Grow,
-	Mine,
-	PlantCut,
-	Smith,
-	Tailor,
-	Art,
-	Craft,
-	Haul,
-	Clean,
-	Research,
-	Management,
-	Teach
-}
+
